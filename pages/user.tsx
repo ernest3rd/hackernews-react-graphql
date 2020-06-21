@@ -65,22 +65,24 @@ function UserPage(props: IUserPageProps): JSX.Element {
     email = e.target.value;
   };
 
-  if (data?.me && data?.user.id === data.me.id)
+  const meId = data?.me?.id;
+
+  if (data?.me && data?.user.id === meId){
     return (
       <MainLayout currentUrl={router.pathname} isFooterVisible={false}>
         <tr>
           <td>
             <form className="profileform" method="post" action="/xuser">
-              <input type="hidden" name="id" value="clintonwoo" />
+              <input type="hidden" name="id" value={meId} />
               <input type="hidden" name="hmac" value="71104445c3c41b4167c38db67a656e610d5fbad9" />
               <table style={{ border: '0px' }}>
                 <tbody>
                   <tr className="athing">
                     <td style={{ verticalAlign: 'top' }}>user:</td>
                     <td>
-                      <Link href="/user?id=clintonwoo">
+                      <Link href={`/user?id=${meId}`}>
                         <a className="hnuser" style={{ color: '#3c963c' }}>
-                          {data?.user.id}
+                          {meId}
                         </a>
                       </Link>
                     </td>
@@ -173,7 +175,7 @@ function UserPage(props: IUserPageProps): JSX.Element {
                   <tr>
                     <td />
                     <td>
-                      <Link href="/submitted?id=clintonwoo">
+                      <Link href={`/submitted?id=${meId}`}>
                         <a>
                           <u>submissions</u>
                         </a>
@@ -183,7 +185,7 @@ function UserPage(props: IUserPageProps): JSX.Element {
                   <tr>
                     <td />
                     <td>
-                      <Link href="/threads?id=clintonwoo">
+                      <Link href={`/threads?id=${meId}`}>
                         <a>
                           <u>comments</u>
                         </a>
@@ -203,13 +205,13 @@ function UserPage(props: IUserPageProps): JSX.Element {
                   <tr>
                     <td />
                     <td>
-                      <Link href="/upvoted?id=clintonwoo">
+                      <Link href={`/upvoted?id=${meId}`}>
                         <a>
                           <u>upvoted submissions</u>
                         </a>
                       </Link>
                       {' / '}
-                      <Link href="/upvoted?id=clintonwoo&comments=t">
+                      <Link href={`/upvoted?id=${meId}&comments=t`}>
                         <a>
                           <u>comments</u>
                         </a>
@@ -221,13 +223,13 @@ function UserPage(props: IUserPageProps): JSX.Element {
                   <tr>
                     <td />
                     <td>
-                      <Link href="/favorites?id=clintonwoo">
+                      <Link href={`/favorites?id=${meId}`}>
                         <a>
                           <u>favorite submissions</u>
                         </a>
                       </Link>
                       {' / '}
-                      <Link href="/favorites?id=clintonwoo&amp;comments=t">
+                      <Link href={`/favorites?id=${meId}&comments=t`}>
                         <a>
                           <u>comments</u>
                         </a>
@@ -247,6 +249,7 @@ function UserPage(props: IUserPageProps): JSX.Element {
         </tr>
       </MainLayout>
     );
+  }
 
   return (
     <MainLayout currentUrl={router.pathname} isFooterVisible={false}>
