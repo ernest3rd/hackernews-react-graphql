@@ -92,8 +92,16 @@ app
 
     expressServer.post(
       '/login',
-      (req, res, next) => {
-        req.session!.returnTo = req.body.goto;
+      async (req, res, next) => {
+        try {
+          await UserService.loginUser(
+            req.body.id,
+            req.body.password
+          );
+          req.session!.returnTo = req.body.goto;
+        } catch (err) {
+          req.session!.returnTo = `/login?how=${err.code}`;
+        }
         next();
       },
       passport.authenticate('local', {

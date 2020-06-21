@@ -26,6 +26,17 @@ export abstract class UserService {
     return false;
   }
 
+  static async loginUser(id: string, password: string): Promise<UserModel> {
+    if( await UserService.validatePassword(id, password) ){
+      const user = await UserService.getUser(id);
+      if(user){
+        CacheSingleton.setUser(id, user);
+        return user;
+      }
+    }
+    throw new Error("Could not login with username and password");
+  }
+
   static async registerUser(user: { id: string; password: string }): Promise<UserModel> {
     // Check if user is valid
     isValidNewUser(user);
