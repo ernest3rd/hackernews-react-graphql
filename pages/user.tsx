@@ -8,6 +8,7 @@ import { convertNumberToTimeAgo } from '../src/helpers/convert-number-to-time-ag
 import { withDataAndRouter } from '../src/helpers/with-data';
 import { BlankLayout } from '../src/layouts/blank-layout';
 import { MainLayout } from '../src/layouts/main-layout';
+import { LoadingSpinner } from '../src/components/loading-spinner';
 
 const query = gql`
   query User($id: String!) {
@@ -40,12 +41,16 @@ function UserPage(props: IUserPageProps): JSX.Element {
 
   const userId = (router.query && router.query.id) || '';
 
-  const { data } = useQuery<IUserPageQuery>(query, { variables: { id: userId } });
+  const { data, loading } = useQuery<IUserPageQuery>(query, { variables: { id: userId } });
+
+  if (loading){
+    return <BlankLayout>Loading.</BlankLayout>;
+  }
 
   if (data?.error) {
     return <BlankLayout>Error loading news items.</BlankLayout>;
   }
-  if (data?.user) {
+  if (!data?.user) {
     return <BlankLayout>No such user.</BlankLayout>;
   }
 
