@@ -118,6 +118,10 @@ export const typeDefs = gql(`
     likes: [Int]!
     
     posts: [Int]!
+
+    passwordSalt: String!
+
+    hashedPassword: String!
   }
 
   # the schema allows the following queries:
